@@ -1,0 +1,14 @@
+Unit]
+Description=Web api dockerized service  
+Requires=docker.service
+
+[Service]
+ExecStartPre=/bin/sleep 1  
+ExecStartPre=pushd $WHERE_WEBAPI_GIT && rake doker_compose:build && popd  
+ExecStart=pushd $WHERE_WEBAPI_GIT rake docker_compose:run   
+ExecStop=/bin/docker stop systemd_redis  
+ExecStopPost=/bin/docker rm -f systemd_redis  
+ExecReload=/bin/docker restart systemd_redis
+
+[Install]
+WantedBy=multi-user.target 

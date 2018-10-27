@@ -1,0 +1,16 @@
+upstream api {
+  server ${UNICORN_HOST}:${UNICORN_PORT} fail_timeout=0;
+}
+
+server {
+  listen ${NGINX_PORT};
+
+  client_max_body_size 4G;
+  server_name localhost;
+  keepalive_timeout 5;
+
+  location / {
+    proxy_pass http://api;
+  }
+}
+

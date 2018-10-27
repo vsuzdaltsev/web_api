@@ -1,0 +1,38 @@
+version: '3'
+services:
+  unicorn:
+    environment:
+      APP_DIR: ${APP_DIR}
+      UNICORN_PORT: ${UNICORN_PORT}
+      UNICORN_HOST: ${UNICORN_HOST}
+      UNICORN_TIMEOUT: ${UNICORN_TIMEOUT}
+      UNICORN_WORKERS: ${UNICORN_WORKERS}
+    build:
+      context: .
+      dockerfile: dockerfiles/Dockerfile_unicorn
+      args:
+        RUBY_VER: ${RUBY_VER}
+        APP_DIR: ${APP_DIR}
+    command: unicorn -c ${APP_DIR}/unicorn.conf
+    volumes:
+      - ${UNICORN_LOG_VOL}
+    ports:
+      - ${UNICORN_PORT}:${UNICORN_PORT}
+    network_mode: ${DOCKER_NETWORK_MODE}
+    container_name: ${UNICORN_CONTAINER_NAME}
+    image: ${UNICORN_CONTAINER_NAME}_img
+  nginx:
+    environment:
+      UNICORN_PORT: ${UNICORN_PORT}
+      UNICORN_HOST: ${UNICORN_HOST}
+      NGINX_HOST: ${NGINX_HOST}
+      NGINX_PORT: ${NGINX_PORT}
+    build:
+      context: .
+      dockerfile: dockerfiles/Dockerfile_nginx
+    command: /bin/bash -c "envsubst < /etc/nginx/conf.d/api.conf.template > /etc/nginx/conf.d/default.conf && nginx -g 'daemon off;'"
+    ports:
+      - ${NGINX_PORT}:${NGINX_PORT}
+    network_mode: ${DOCKER_NETWORK_MODE}
+    container_name: ${NGINX_CONTAINER_NAME}
+    image: ${NGINX_CONTAINER_NAME}_img

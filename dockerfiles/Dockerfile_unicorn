@@ -1,0 +1,14 @@
+ARG RUBY_VER
+
+FROM ruby:${RUBY_VER}
+
+ARG APP_DIR
+
+RUN mkdir -p $APP_DIR/{lib,config}
+
+COPY services/unicorn $APP_DIR
+COPY config $APP_DIR/config
+
+WORKDIR $APP_DIR
+
+RUN gem install bundler && bundle install
