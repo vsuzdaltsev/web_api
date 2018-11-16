@@ -1,17 +1,7 @@
 #!/usr/bin/env ruby
 
-# Configuration
 module WebApiConf
-  module_function
-
-  def unicorn_gemfile
-    `find $PWD -wholename "*unicorn/Gemfile"`.chomp
-  end
-
-  def ruby_ver
-    IO.readlines(unicorn_gemfile).grep(/^ruby/).join.split[1]
-  end
-
+  where_gemfile = %x{find $PWD -name Gemfile}.chomp
   DEFAULTS = {
     future: 'no future',
     valid_http_methods: %w[
@@ -25,21 +15,21 @@ module WebApiConf
   }.freeze
   DOCKER = {
     network_mode: 'host',
-    env_file: '.env'
+    env_file:     '.env'
   }.freeze
   UNICORN = {
-    working_dir: '/opt/app',
-    ruby_ver: ruby_ver,
-    host: '127.0.0.1',
-    port: '4567',
-    timeout: '5',
-    workers: '2',
-    log_vol: '/var/log/:/opt/app/web_api/log',
+    working_dir:    '/opt/app',
+    ruby_ver:       IO.readlines(where_gemfile).map { |l| l if l.include?('ruby ') }.join.scan(/\d/).join('.'),
+    host:           '127.0.0.1',
+    port:           '4567',
+    timeout:        '5',
+    workers:        '2',
+    log_vol:        '/var/log/:/opt/app/web_api/log',
     container_name: 'unicorn'
   }.freeze
   NGINX = {
-    host: '0.0.0.0',
-    port: '88',
+    host:           '0.0.0.0',
+    port:           '88',
     container_name: 'nginx'
   }.freeze
 end

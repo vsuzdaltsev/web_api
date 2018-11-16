@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 
-load    'config/conf'
+load    'config/conf.rb'
 require 'json'
 require 'sinatra/base'
 require 'sinatra/streaming'
