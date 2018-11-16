@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
-# frozen_string_literal: true
 
-load                   'config/conf.rb'
+load                   'config/conf'
+#include                WebApiConf
 
 RUBY_VER               = WebApiConf::UNICORN[:ruby_ver]
 APP_DIR                = WebApiConf::UNICORN[:working_dir]
@@ -48,7 +48,7 @@ namespace :docker_compose do
   task :build do |t|
     Rake::Task["#{t.scope.path}:create_env"].execute
     puts '* Run docker-compose build'
-    system('docker-compose build')
+    system("docker-compose build")
   end
 
   desc 'run service'
@@ -63,12 +63,5 @@ namespace :docker_compose do
     system('docker-compose stop')
     system('docker-compose rm -f')
     system('rm -f .env')
-  end
-end
-
-namespace :tests do
-  desc 'run rspec'
-  task :rspec do |_t|
-    system('bundle exec rspec services/unicorn')
   end
 end
