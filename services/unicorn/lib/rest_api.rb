@@ -6,6 +6,7 @@ require 'json'
 require 'sinatra/base'
 require 'sinatra/streaming'
 
+# Rest api sample
 class RestApi < Sinatra::Base
   include WebApiConf
 
@@ -28,7 +29,7 @@ class RestApi < Sinatra::Base
         send(m, '/*') do
           stream do |out|
             content_type :json
-            help = [] << {help: "#{m} method default route"}.to_json
+            help = [] << { help: "#{m} method default route" }.to_json
             out.puts help.join("\n")
           end
         end
@@ -43,13 +44,12 @@ class RestApi < Sinatra::Base
         content_type(:json)
         output = proc do |e|
           { method_name: method,
-            future:      e
-          }.to_json
+            future: e }.to_json
         end
         begin
           req = JSON.parse(request.body.read)
           out.puts output.call(req)
-        rescue
+        rescue StandardError
           out.puts output.call(WebApiConf::DEFAULTS[:future])
         end
       end
