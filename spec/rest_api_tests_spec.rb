@@ -11,7 +11,6 @@ describe 'post_create_future_route' do
   it 'should successfully return default response from the route' do
     post "#{WebApiConf::DEFAULTS[:api_url_base_v1]}/post_create_future"
     expect(last_response).to be_ok
-    puts "LAST: #{last_response.body}"
     last_response.body.include? "{\"method_name\":\"post_create_future\",\"future\":\"no future\"}\n"
   end
 end
