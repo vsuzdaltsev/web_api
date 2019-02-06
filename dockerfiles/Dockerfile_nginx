@@ -1,3 +1,2 @@
 FROM nginx:latest
 COPY ./services/nginx/api.conf.template /etc/nginx/conf.d/api.conf.template
-#RUN nginx -t -c /etc/nginx/nginx.conf
