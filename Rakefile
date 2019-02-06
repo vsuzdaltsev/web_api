@@ -63,10 +63,3 @@ namespace :docker_compose do
     system('rm -f .env')
   end
 end
-
-namespace :test do
-  desc 'rspec'
-  task :rspec do |t|
-    system('rspec .')
-  end
-end
