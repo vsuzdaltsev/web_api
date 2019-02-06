@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 
 module WebApiConf
-  where_gemfile = %x{find $PWD -name Gemfile}.chomp
+  where_gemfile = %x{find $PWD -wholename '*unicorn/Gemfile'}.chomp
   DEFAULTS = {
     future: 'no future',
     valid_http_methods: %w[
