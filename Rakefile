@@ -1,7 +1,5 @@
 #!/usr/bin/env ruby
-
 load                   'config/conf.rb'
-#include                WebApiConf
 
 RUBY_VER               = WebApiConf::UNICORN[:ruby_ver]
 APP_DIR                = WebApiConf::UNICORN[:working_dir]
