@@ -70,4 +70,3 @@ namespace :test do
     system('rspec .')
   end
 end
-
