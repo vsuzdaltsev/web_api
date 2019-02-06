@@ -19,7 +19,7 @@ module WebApiConf
   }.freeze
   UNICORN = {
     working_dir:    '/opt/app',
-    ruby_ver:       IO.readlines(where_gemfile).map { |l| l if l.include?('ruby ') }.join.scan(/\d/).join('.'),
+    ruby_ver:       IO.readlines(where_gemfile).grep(/ruby /).join.scan(/\d/).join('.'),
     host:           '127.0.0.1',
     port:           '4567',
     timeout:        '5',
