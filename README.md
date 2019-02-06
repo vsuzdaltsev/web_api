@@ -9,7 +9,7 @@ Make sure that:
  - git client is installed
  
 ```
-git clone https://anonymus88@bitbucket.org/anonymus88/web_api.git .
+git clone https://github.com/vsuzdaltsev/web_api.git .
 cd web_api
 rake docker_compose:build
 rake docker_compose:run
