@@ -1,7 +1,5 @@
 #!/usr/bin/env ruby
-
 load                   'config/conf.rb'
-#include                WebApiConf
 
 RUBY_VER               = WebApiConf::UNICORN[:ruby_ver]
 APP_DIR                = WebApiConf::UNICORN[:working_dir]
@@ -65,3 +63,11 @@ namespace :docker_compose do
     system('rm -f .env')
   end
 end
+
+namespace :test do
+  desc 'rspec'
+  task :rspec do |t|
+    system('rspec .')
+  end
+end
+
