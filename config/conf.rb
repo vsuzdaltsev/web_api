@@ -5,7 +5,7 @@ module WebApiConf
   module_function
 
   def where_gemfile
-    %x{find $PWD -name '*Gemfile'}.chomp
+    `find $PWD -name '*Gemfile'`.chomp
   end
 
   def ruby_ver
