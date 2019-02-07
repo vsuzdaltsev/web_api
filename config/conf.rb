@@ -1,7 +1,17 @@
 #!/usr/bin/env ruby
 
 module WebApiConf
-  where_gemfile = %x{find $PWD -wholename '*unicorn*Gemfile'}.chomp
+
+  module_function
+
+  def where_gemfile
+    %x{find $PWD -name '*Gemfile'}.chomp
+  end
+
+  def ruby_ver
+    File.readlines(where_gemfile).grep(/ruby /).join.split[1]
+  end
+
   DEFAULTS = {
     future: 'no future',
     valid_http_methods: %w[
@@ -19,7 +29,7 @@ module WebApiConf
   }.freeze
   UNICORN = {
     working_dir:    '/opt/app',
-    ruby_ver:       File.readlines(%x{find $PWD -name Gemfile}.chomp).grep(/ruby /).join.split[1],
+    ruby_ver:       ruby_ver,
     host:           '127.0.0.1',
     port:           '4567',
     timeout:        '5',
