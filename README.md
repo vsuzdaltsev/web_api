@@ -14,6 +14,8 @@ cd web_api
 rake docker_compose:build
 rake docker_compose:run
 curl 127.0.0.1:4567/api/v1/some_request
+tail -f  /var/log/unicorn.log
 
 rake docker_compose:stop
+
 ```
