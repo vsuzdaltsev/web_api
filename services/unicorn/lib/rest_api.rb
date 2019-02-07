@@ -38,14 +38,13 @@ class RestApi < Sinatra::Base
   end
 
   def self.post_create_future
-    method = __method__
-    post "#{Api_url_base_v1}/#{method}" do
+    post "#{Api_url_base_v1}/#{__method__}" do
       stream do |out|
         content_type(:json)
-        output = proc do |e|
+        output = proc do |line|
           {
-            method_name: method,
-            future:      e
+            method_name: __method__,
+            future:      line
           }.to_json
         end
         begin
