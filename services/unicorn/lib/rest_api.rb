@@ -16,8 +16,14 @@ class RestApi < Sinatra::Base
   Valid_http_methods = WebApiConf::DEFAULTS[:valid_http_methods]
   Api_url_base_v1    = WebApiConf::DEFAULTS[:api_url_base_v1]
 
+  def self.tests
+    get '/api/v1/mkdate/Ymd' do
+     Time.now.strftime("%Y%M%d")
+    end
+  end
+
   def self.create_rest_api
-    post_create_future
+    tests
     create_default_route_methods(Valid_http_methods).each do |http_method|
       send("create_#{http_method}_default_route")
     end
@@ -32,26 +38,6 @@ class RestApi < Sinatra::Base
             help = [] << { help: "#{m} method default route" }.to_json
             out.puts help.join("\n")
           end
-        end
-      end
-    end
-  end
-
-  def self.post_create_future
-    post "#{Api_url_base_v1}/#{__method__}" do
-      stream do |out|
-        content_type(:json)
-        output = proc do |line|
-          {
-            method_name: __method__,
-            future:      line
-          }.to_json
-        end
-        begin
-          req = JSON.parse(request.body.read)
-          out.puts output.call(req)
-        rescue StandardError
-          out.puts output.call(WebApiConf::DEFAULTS[:future])
         end
       end
     end

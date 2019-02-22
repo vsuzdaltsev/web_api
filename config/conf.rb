@@ -39,7 +39,7 @@ module WebApiConf
   }.freeze
   NGINX = {
     host:           '0.0.0.0',
-    port:           '88',
+    port:           '8080',
     container_name: 'nginx'
   }.freeze
 end
