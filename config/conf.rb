@@ -1,4 +1,5 @@
 #!/usr/bin/env ruby
+# NB: comment 'network_mode' attribute from docker-compose.yml if running on MAC
 
 module WebApiConf
 
